@@ -12,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.yashagarwal.rhythm.R
 import com.example.yashagarwal.rhythm.Songs
+import com.example.yashagarwal.rhythm.activities.MainActivity
+import com.example.yashagarwal.rhythm.fragments.MainScreenFragment
 import com.example.yashagarwal.rhythm.fragments.SongPlayingFragment
 
 /**
@@ -42,7 +44,15 @@ class MainScreenAdapter(_songDetails: ArrayList<Songs>, _context: Context) : Rec
 
         holder.contentHolder?.setOnClickListener({
 
-            Toast.makeText(mContext, "   Hey   " + songObject?.songTitle, Toast.LENGTH_SHORT).show()
+            val songPlayingFragment = SongPlayingFragment()
+            var args = Bundle()
+            args.putString("songArtist", songObject?.artist)
+            args.putString("path",songObject?.songData)
+            args.putString("songTitle",songObject?.songTitle)
+            args.putInt("songId",songObject?.songID?.toInt() as Int)
+            args.putInt("songPosition", position)
+            args.putParcelableArrayList("songData", songDetails)
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction().replace(R.id.details_fragment, songPlayingFragment).commit()
         })
 
     }
